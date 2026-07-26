@@ -15,7 +15,7 @@ body {
 
 /* ===== 主容器 ===== */
 .app-container {
-    max-width: 900px;
+    max-width: 960px;
     margin: 0 auto;
     background: linear-gradient(160deg, #1a1a3a 0%, #0f0f2a 100%);
     border-radius: 32px;
@@ -30,7 +30,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     flex-wrap: wrap;
     gap: 12px;
 }
@@ -71,9 +71,43 @@ body {
     font-weight: 500;
 }
 
+/* ===== 分类切换 ===== */
+.category-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    padding: 4px;
+}
+
+.category-tab {
+    flex: 1;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 12px;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.category-tab:hover {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.category-tab.active {
+    background: rgba(123, 104, 238, 0.2);
+    color: #c8bfff;
+    box-shadow: 0 4px 20px rgba(106, 90, 205, 0.1);
+}
+
 /* ===== 搜索栏 ===== */
 .search-bar {
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 .search-input {
@@ -87,7 +121,7 @@ body {
     font-family: inherit;
     outline: none;
     transition: all 0.3s ease;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
 .search-input:focus {
@@ -109,10 +143,10 @@ body {
 .filter-tab {
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.06);
-    color: rgba(255, 255, 255, 0.5);
-    padding: 6px 16px;
+    color: rgba(255, 255, 255, 0.4);
+    padding: 5px 14px;
     border-radius: 20px;
-    font-size: 13px;
+    font-size: 12px;
     cursor: pointer;
     transition: all 0.25s ease;
     font-family: inherit;
@@ -125,15 +159,15 @@ body {
 }
 
 .filter-tab.active {
-    background: rgba(123, 104, 238, 0.25);
+    background: rgba(123, 104, 238, 0.2);
     color: #c8bfff;
-    border-color: rgba(123, 104, 238, 0.3);
+    border-color: rgba(123, 104, 238, 0.25);
 }
 
 /* ===== 图鉴网格 ===== */
 .pokedex-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 10px;
     margin: 4px 0 16px;
     min-height: 200px;
@@ -175,7 +209,7 @@ body {
 }
 
 .pokedex-card .name {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
     color: #e8e8f0;
     display: flex;
@@ -183,17 +217,31 @@ body {
     gap: 6px;
 }
 
-.pokedex-card .name .boss-icon {
-    font-size: 14px;
+.pokedex-card .sub-info {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.3);
+    margin-top: 4px;
 }
 
-.pokedex-card .type-tag {
+.pokedex-card .desc-preview {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.2);
+    margin-top: 6px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.4;
+}
+
+/* 标签 */
+.tag {
     display: inline-block;
     font-size: 11px;
     font-weight: 600;
-    padding: 1px 12px;
+    padding: 0 12px;
     border-radius: 12px;
-    margin-top: 4px;
+    margin-top: 3px;
 }
 
 /* 属性颜色 */
@@ -204,22 +252,15 @@ body {
 .type-土 { background: rgba(251, 191, 36, 0.15); color: #fbbf24; }
 .type-boss { background: rgba(248, 113, 113, 0.2); color: #fca5a5; }
 
-.pokedex-card .subject {
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.3);
-    margin-top: 4px;
-}
-
-.pokedex-card .desc-preview {
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.25);
-    margin-top: 6px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    line-height: 1.4;
-}
+/* 道具类型 */
+.type-ball { background: rgba(96, 165, 250, 0.15); color: #60a5fa; }
+.type-ball2 { background: rgba(167, 139, 250, 0.15); color: #a78bfa; }
+.type-heal { background: rgba(74, 222, 128, 0.15); color: #4ade80; }
+.type-elem { background: rgba(251, 191, 36, 0.15); color: #fbbf24; }
+.type-coin { background: rgba(255, 215, 0, 0.15); color: #ffd700; }
+.type-exp { background: rgba(248, 113, 113, 0.15); color: #f87171; }
+.type-score { background: rgba(96, 165, 250, 0.15); color: #60a5fa; }
+.type-addMaxPets { background: rgba(74, 222, 128, 0.15); color: #4ade80; }
 
 /* ===== 空状态 ===== */
 .empty-state {
@@ -321,7 +362,7 @@ body {
 /* ===== 详情卡片 ===== */
 .detail-card .row {
     display: flex;
-    padding: 8px 0;
+    padding: 6px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.03);
 }
 
@@ -341,14 +382,6 @@ body {
     font-weight: 500;
 }
 
-.detail-card .value .tag {
-    display: inline-block;
-    padding: 0 12px;
-    border-radius: 12px;
-    font-size: 12px;
-    font-weight: 600;
-}
-
 .detail-desc {
     margin-top: 14px;
     padding: 14px 18px;
@@ -363,17 +396,17 @@ body {
     color: #a78bfa;
 }
 
-.detail-evolve {
-    margin-top: 14px;
+.detail-tip {
+    margin-top: 12px;
     padding: 12px 16px;
     background: rgba(251, 191, 36, 0.06);
     border-radius: 12px;
     border-left: 3px solid #fbbf24;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.5);
     font-size: 13px;
 }
 
-.detail-evolve strong {
+.detail-tip strong {
     color: #fbbf24;
 }
 
@@ -416,26 +449,17 @@ body {
         margin: 10px;
     }
     .pokedex-grid {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
         gap: 8px;
     }
     .pokedex-card {
         padding: 10px 12px;
     }
     .pokedex-card .name {
-        font-size: 14px;
+        font-size: 13px;
     }
-    .filter-tabs {
-        gap: 4px;
-    }
-    .filter-tab {
+    .category-tab {
         font-size: 12px;
-        padding: 4px 12px;
-    }
-}
-
-@media (max-width: 380px) {
-    .pokedex-grid {
-        grid-template-columns: 1fr 1fr;
+        padding: 8px 12px;
     }
 }
