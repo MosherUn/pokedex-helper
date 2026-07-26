@@ -54,19 +54,17 @@ function getFilterOptions() {
         return ['全部', '金', '木', '水', '火', '土', 'BOSS'];
     } else if (currentCategory === 'item') {
         const types = [...new Set(ItemList.map(i => i.type))];
-        return ['全部', ...types.map(t => {
-            const map = {
-                'ball': '捕捉球',
-                'ball2': '变异球',
-                'heal': '治疗',
-                'elem': '灵石',
-                'coin': '金币',
-                'exp': '经验',
-                'score': '排行',
-                'addMaxPets': '扩容'
-            };
-            return map[t] || t;
-        })];
+        const typeMap = {
+            'ball': '捕捉球',
+            'ball2': '变异球',
+            'heal': '治疗',
+            'elem': '灵石',
+            'coin': '金币',
+            'exp': '经验',
+            'score': '排行',
+            'addMaxPets': '扩容'
+        };
+        return ['全部', ...types.map(t => typeMap[t] || t)];
     } else if (currentCategory === 'skill') {
         const types = [...new Set(Object.values(SkillDict).map(s => s.type || '其他'))];
         return ['全部', ...types];
@@ -127,7 +125,6 @@ function renderFilters() {
         </button>
     `).join('');
 
-    // 绑定事件
     filterTabs.querySelectorAll('.filter-tab').forEach(tab => {
         tab.addEventListener('click', () => {
             filterTabs.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
@@ -142,18 +139,26 @@ function renderFilters() {
 function renderPokedex() {
     const data = getCurrentData();
     const filtered = data.filter(item => {
-        // 搜索匹配
         const searchMatch = !currentSearch || 
-            item._searchFields.some(field => field.includes(currentSearch));
+            item._searchFields.some(field => String(field).includes(currentSearch));
         
-        // 筛选匹配
         let filterMatch = true;
         if (currentFilter !== 'all') {
             if (currentCategory === 'pet') {
                 filterMatch = item.type === currentFilter || 
                              (currentFilter === 'BOSS' && item.type === 'boss');
             } else if (currentCategory === 'item') {
-                filterMatch = item.type === currentFilter;
+                const typeMap = {
+                    '捕捉球': 'ball',
+                    '变异球': 'ball2',
+                    '治疗': 'heal',
+                    '灵石': 'elem',
+                    '金币': 'coin',
+                    '经验': 'exp',
+                    '排行': 'score',
+                    '扩容': 'addMaxPets'
+                };
+                filterMatch = item.type === (typeMap[currentFilter] || currentFilter);
             } else if (currentCategory === 'skill') {
                 filterMatch = (item.type || '其他') === currentFilter;
             }
@@ -162,7 +167,6 @@ function renderPokedex() {
         return searchMatch && filterMatch;
     });
 
-    // 更新计数
     const total = data.length;
     totalCount.textContent = `共 ${total} 项`;
     resultCount.textContent = `显示 ${filtered.length} 项`;
@@ -194,8 +198,10 @@ function renderPokedex() {
             descPreview = item.text ? item.text.slice(0, 30) + (item.text.length > 30 ? '...' : '') : '';
         }
 
+        // 🔧 修复：统一使用 id 作为标识
+        const itemId = item.id || item.name;
         return `
-            <div class="pokedex-card" data-id="${item.id || item.name}" onclick="showDetail('${currentCategory}', '${item.id || item.name}')">
+            <div class="pokedex-card" data-category="${currentCategory}" data-id="${itemId}" onclick="showDetail('${currentCategory}', '${itemId}')">
                 <div class="name">${item.name}</div>
                 <span class="tag ${typeClass}">${typeLabel}</span>
                 ${subInfo ? `<div class="sub-info">${subInfo}</div>` : ''}
@@ -205,18 +211,24 @@ function renderPokedex() {
     }).join('');
 }
 
-// ===== 显示详情 =====
+// ===== 显示详情（修复版） =====
 function showDetail(category, id) {
+    console.log('[图鉴] 查看详情:', category, id);
+    
     let item, title, html = '';
 
     if (category === 'pet') {
+        // ===== 精灵详情 =====
         item = PetDict[id];
-        if (!item) return;
+        if (!item) {
+            console.warn('[图鉴] 未找到精灵:', id);
+            return;
+        }
+        
         const isBoss = item.type === 'boss';
         const typeClass = isBoss ? 'type-boss' : `type-${item.type}`;
         const typeLabel = isBoss ? '👑 BOSS' : item.type;
 
-        // 进化信息
         let evolveHtml = '';
         if (item.evolveFrom) {
             const fromPet = PetDict[item.evolveFrom];
@@ -270,8 +282,13 @@ function showDetail(category, id) {
         `;
 
     } else if (category === 'item') {
+        // ===== 道具详情 =====
         item = ItemList.find(i => i.id === id);
-        if (!item) return;
+        if (!item) {
+            console.warn('[图鉴] 未找到道具:', id);
+            return;
+        }
+        
         const typeClass = getTypeClass(item.type);
         const typeLabel = getTypeLabel(item.type);
 
@@ -297,11 +314,17 @@ function showDetail(category, id) {
             ${item.type === 'heal' ? '<div class="detail-tip" style="border-left-color:#4ade80;">💡 治疗道具可以在战斗中和非战斗时使用，恢复精灵状态。</div>' : ''}
             ${item.type === 'coin' ? '<div class="detail-tip" style="border-left-color:#ffd700;">💡 金币盒子可以快速获得游戏货币，是积累财富的好帮手。</div>' : ''}
             ${item.type === 'exp' ? '<div class="detail-tip" style="border-left-color:#f87171;">💡 经验盒子可以帮助精灵快速升级，提升战斗力。</div>' : ''}
+            ${item.type === 'score' ? '<div class="detail-tip" style="border-left-color:#60a5fa;">💡 排行卷轴可以查看战绩排行，了解自己的实力定位。</div>' : ''}
+            ${item.type === 'addMaxPets' ? '<div class="detail-tip" style="border-left-color:#4ade80;">💡 扩容卡可以增加精灵携带上限，最多可扩容至8格。</div>' : ''}
         `;
 
     } else if (category === 'skill') {
+        // ===== 技能详情 =====
         item = SkillDict[id];
-        if (!item) return;
+        if (!item) {
+            console.warn('[图鉴] 未找到技能:', id);
+            return;
+        }
 
         title = `⚔️ ${id}`;
         html = `
@@ -324,6 +347,7 @@ function showDetail(category, id) {
             ${item.type === '恢复' ? '<div class="detail-tip" style="border-left-color:#4ade80;">💡 恢复型技能可以回复生命或魔力，是持久战的关键。</div>' : ''}
             ${item.type === '防御' ? '<div class="detail-tip" style="border-left-color:#60a5fa;">💡 防御型技能可以减免伤害，适合应对高攻击对手。</div>' : ''}
             ${item.type === '攻击' ? '<div class="detail-tip" style="border-left-color:#f87171;">💡 攻击型技能可以造成高额伤害，是输出的核心。</div>' : ''}
+            ${item.type === '被动' ? '<div class="detail-tip" style="border-left-color:#a78bfa;">💡 被动型技能在特定条件下自动触发，无需主动使用。</div>' : ''}
         `;
     }
 
@@ -345,43 +369,38 @@ function switchCategory(category) {
     currentFilter = 'all';
     currentSearch = '';
 
-    // 更新分类标签激活状态
     categoryTabs.querySelectorAll('.category-tab').forEach(tab => {
         tab.classList.toggle('active', tab.dataset.category === category);
     });
 
-    // 清空搜索框
     searchInput.value = '';
-
-    // 重新渲染筛选和内容
     renderFilters();
     renderPokedex();
 }
 
 // ===== 事件绑定 =====
-// 搜索
 searchInput.addEventListener('input', (e) => {
     currentSearch = e.target.value.trim();
     renderPokedex();
 });
 
-// 分类切换
 categoryTabs.addEventListener('click', (e) => {
     const tab = e.target.closest('.category-tab');
     if (!tab) return;
     switchCategory(tab.dataset.category);
 });
 
-// 关闭详情
 detailCloseBtn.addEventListener('click', closeDetail);
 detailModal.addEventListener('click', (e) => {
     if (e.target === detailModal) closeDetail();
 });
 
-// ESC 关闭
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeDetail();
 });
+
+// ===== 将 showDetail 暴露到全局 =====
+window.showDetail = showDetail;
 
 // ===== 初始化 =====
 renderFilters();
@@ -391,12 +410,4 @@ console.log('[图鉴] 已加载:');
 console.log(`  🧚 精灵: ${Object.keys(PetDict).length} 只`);
 console.log(`  🎒 道具: ${ItemList.length} 件`);
 console.log(`  ⚔️ 技能: ${Object.keys(SkillDict).length} 个`);
-
-// ESC 关闭
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeDetail();
-});
-
-// ===== 初始化 =====
-renderPokedex();
-console.log('[图鉴] 已加载 ' + Object.keys(PetDict).length + ' 只精灵');
+console.log('💡 点击卡片可查看详情');
