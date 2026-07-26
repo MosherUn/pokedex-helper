@@ -1,0 +1,441 @@
+/* ===== 全局重置 ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: #0a0a1a;
+    min-height: 100vh;
+    padding: 20px;
+    color: #e8e8f0;
+}
+
+/* ===== 主容器 ===== */
+.app-container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: linear-gradient(160deg, #1a1a3a 0%, #0f0f2a 100%);
+    border-radius: 32px;
+    padding: 32px 30px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), 0 0 60px rgba(106, 90, 205, 0.1);
+    border: 1px solid rgba(123, 104, 238, 0.15);
+    transition: all 0.3s ease;
+}
+
+/* ===== 头部 ===== */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header h1 {
+    font-size: 26px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #c8bfff, #8b7cf7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 0.5px;
+}
+
+.version-badge {
+    font-size: 11px;
+    background: rgba(123, 104, 238, 0.15);
+    padding: 2px 14px;
+    border-radius: 20px;
+    color: #a78bfa;
+    border: 1px solid rgba(123, 104, 238, 0.15);
+}
+
+.header-right {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.total-count {
+    background: rgba(255, 255, 255, 0.04);
+    padding: 4px 16px;
+    border-radius: 20px;
+    font-weight: 500;
+}
+
+/* ===== 搜索栏 ===== */
+.search-bar {
+    margin-bottom: 20px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px 18px;
+    border-radius: 16px;
+    border: 1px solid rgba(123, 104, 238, 0.15);
+    background: rgba(255, 255, 255, 0.04);
+    color: #e8e8f0;
+    font-size: 15px;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.3s ease;
+    margin-bottom: 12px;
+}
+
+.search-input:focus {
+    border-color: rgba(123, 104, 238, 0.4);
+    box-shadow: 0 0 0 4px rgba(123, 104, 238, 0.08);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.search-input::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.filter-tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.filter-tab {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.5);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-family: inherit;
+}
+
+.filter-tab:hover {
+    background: rgba(123, 104, 238, 0.15);
+    color: #fff;
+    border-color: rgba(123, 104, 238, 0.2);
+}
+
+.filter-tab.active {
+    background: rgba(123, 104, 238, 0.25);
+    color: #c8bfff;
+    border-color: rgba(123, 104, 238, 0.3);
+}
+
+/* ===== 图鉴网格 ===== */
+.pokedex-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    margin: 4px 0 16px;
+    min-height: 200px;
+}
+
+/* ===== 图鉴卡片 ===== */
+.pokedex-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 16px;
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.pokedex-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, rgba(123, 104, 238, 0), rgba(123, 104, 238, 0.4), rgba(123, 104, 238, 0));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.pokedex-card:hover {
+    background: rgba(123, 104, 238, 0.08);
+    border-color: rgba(123, 104, 238, 0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.pokedex-card:hover::before {
+    opacity: 1;
+}
+
+.pokedex-card .name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #e8e8f0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.pokedex-card .name .boss-icon {
+    font-size: 14px;
+}
+
+.pokedex-card .type-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 1px 12px;
+    border-radius: 12px;
+    margin-top: 4px;
+}
+
+/* 属性颜色 */
+.type-金 { background: rgba(255, 215, 0, 0.2); color: #ffd700; }
+.type-木 { background: rgba(74, 222, 128, 0.15); color: #4ade80; }
+.type-水 { background: rgba(96, 165, 250, 0.15); color: #60a5fa; }
+.type-火 { background: rgba(248, 113, 113, 0.15); color: #f87171; }
+.type-土 { background: rgba(251, 191, 36, 0.15); color: #fbbf24; }
+.type-boss { background: rgba(248, 113, 113, 0.2); color: #fca5a5; }
+
+.pokedex-card .subject {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.3);
+    margin-top: 4px;
+}
+
+.pokedex-card .desc-preview {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.25);
+    margin-top: 6px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.4;
+}
+
+/* ===== 空状态 ===== */
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    color: rgba(255, 255, 255, 0.15);
+}
+
+.empty-state .icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+}
+
+.empty-state .text {
+    font-size: 16px;
+}
+
+/* ===== 模态弹窗 ===== */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-box {
+    background: linear-gradient(160deg, #1e1e42, #12122e);
+    border: 1px solid rgba(123, 104, 238, 0.2);
+    border-radius: 24px;
+    padding: 28px 32px;
+    max-width: 520px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.9);
+    animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.modal-header h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #c8bfff;
+}
+
+.modal-close {
+    font-size: 24px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.2);
+    transition: 0.3s;
+    background: none;
+    border: none;
+    padding: 0 8px;
+    line-height: 1;
+}
+
+.modal-close:hover {
+    color: #fff;
+    transform: rotate(90deg);
+}
+
+.modal-body {
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+/* ===== 详情卡片 ===== */
+.detail-card .row {
+    display: flex;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.detail-card .row:last-child {
+    border-bottom: none;
+}
+
+.detail-card .label {
+    color: rgba(255, 255, 255, 0.3);
+    font-weight: 400;
+    min-width: 72px;
+    font-size: 13px;
+}
+
+.detail-card .value {
+    color: #e8e8f0;
+    font-weight: 500;
+}
+
+.detail-card .value .tag {
+    display: inline-block;
+    padding: 0 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.detail-desc {
+    margin-top: 14px;
+    padding: 14px 18px;
+    background: rgba(167, 139, 250, 0.05);
+    border-radius: 12px;
+    border-left: 3px solid #a78bfa;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.7;
+}
+
+.detail-desc strong {
+    color: #a78bfa;
+}
+
+.detail-evolve {
+    margin-top: 14px;
+    padding: 12px 16px;
+    background: rgba(251, 191, 36, 0.06);
+    border-radius: 12px;
+    border-left: 3px solid #fbbf24;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 13px;
+}
+
+.detail-evolve strong {
+    color: #fbbf24;
+}
+
+/* ===== 状态栏 ===== */
+.status-bar {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.15);
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+/* ===== 滚动条 ===== */
+.modal-box::-webkit-scrollbar {
+    width: 4px;
+}
+.modal-box::-webkit-scrollbar-track {
+    background: transparent;
+}
+.modal-box::-webkit-scrollbar-thumb {
+    background: rgba(123, 104, 238, 0.3);
+    border-radius: 20px;
+}
+
+/* ===== 响应式 ===== */
+@media (max-width: 540px) {
+    .app-container {
+        padding: 16px 12px;
+        border-radius: 20px;
+    }
+    .header h1 {
+        font-size: 20px;
+    }
+    .modal-box {
+        padding: 18px 16px;
+        margin: 10px;
+    }
+    .pokedex-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 8px;
+    }
+    .pokedex-card {
+        padding: 10px 12px;
+    }
+    .pokedex-card .name {
+        font-size: 14px;
+    }
+    .filter-tabs {
+        gap: 4px;
+    }
+    .filter-tab {
+        font-size: 12px;
+        padding: 4px 12px;
+    }
+}
+
+@media (max-width: 380px) {
+    .pokedex-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
