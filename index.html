@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学习吧！小精灵 - 图鉴大全</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- 头部 -->
+        <div class="header">
+            <div class="header-left">
+                <h1>📖 小精灵图鉴</h1>
+                <span class="version-badge">v2.0</span>
+            </div>
+            <div class="header-right">
+                <span class="total-count" id="totalCount">加载中...</span>
+            </div>
+        </div>
+
+        <!-- 搜索和筛选 -->
+        <div class="search-bar">
+            <input type="text" id="searchInput" class="search-input" placeholder="🔍 搜索名称、属性、科目...">
+            <div class="filter-tabs" id="filterTabs">
+                <button class="filter-tab active" data-filter="all">全部</button>
+                <button class="filter-tab" data-filter="金">金</button>
+                <button class="filter-tab" data-filter="木">木</button>
+                <button class="filter-tab" data-filter="水">水</button>
+                <button class="filter-tab" data-filter="火">火</button>
+                <button class="filter-tab" data-filter="土">土</button>
+                <button class="filter-tab" data-filter="boss">👑 BOSS</button>
+            </div>
+        </div>
+
+        <!-- 图鉴网格 -->
+        <div class="pokedex-grid" id="pokedexGrid">
+            <!-- 由 JavaScript 动态渲染 -->
+        </div>
+
+        <!-- 状态栏 -->
+        <div class="status-bar">
+            <span id="resultCount">共 0 只精灵</span>
+            <span>数据来源于游戏配置</span>
+        </div>
+    </div>
+
+    <!-- ===== 详情弹窗 ===== -->
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal-box" id="detailModalBox">
+            <div class="modal-header">
+                <h2 id="detailTitle">详情</h2>
+                <button class="modal-close" id="detailCloseBtn">✕</button>
+            </div>
+            <div class="modal-body" id="detailBody"></div>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/pokedex.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
