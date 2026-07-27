@@ -1,7 +1,7 @@
 {
   "pet": {
     "boss1": {
-      "name": "竹牛尊者",
+      "name": "竹牛尊者我是Mosher",
       "type": "boss",
       "subject": "随机科目",
       "_atk": 2,
@@ -2352,7 +2352,7 @@
     }
   },
   "_meta": {
-    "lastUpdated": "2026-07-27T13:33:52.032Z",
+    "lastUpdated": "2026-07-27T14:04:23.558Z",
     "totalPets": 64,
     "totalItems": 35,
     "totalSkills": 12,
