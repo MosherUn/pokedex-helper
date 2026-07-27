@@ -11,12 +11,8 @@
     console.log(`  🎒 道具: ${ItemList.length} 件`);
     console.log(`  ⚔️ 技能: ${Object.keys(SkillDict).length} 个`);
     console.log(`  👕 装备: ${Object.keys(WEARABLES).length} 件`);
-    console.log('');
-    console.log('🔐 管理功能:');
-    console.log('  点击右上角 ⚙️ 按钮进入管理面板');
-    console.log('  默认密码: Mosher50018863');
-    console.log('  支持: 添加/编辑/删除 精灵、道具、技能、装备');
-    console.log('  数据自动保存到浏览器本地');
+    console.log('☁️ 数据存储仓库: re_of_pokemon');
+    console.log('🔐 管理密码: Mosher50018863');
 
     window.__pokedex = {
         PetDict: PetDict,
@@ -28,6 +24,16 @@
         saveData: saveCustomData,
         resetData: resetToDefault,
         loadData: loadCustomData,
+        exportData: exportAllData,
+        importData: importAllData,
+        downloadData: downloadDataAsFile,
+        syncToCloud: syncToCloud,
+        loadFromCloud: loadFromCloud,
+        fetchFromGitHub: fetchFromGitHub,
+        saveToGitHub: saveToGitHub,
+        syncAllDataToGitHub: syncAllDataToGitHub,
+        getConfig: () => CONFIG,
+        setConfig: (config) => { CONFIG = config; saveGitHubConfigToLocal(config); },
         search: (keyword, category) => {
             let results = [];
             if (!category || category === 'pet') {
@@ -61,4 +67,6 @@
     };
 
     console.log('💡 在控制台输入 __pokedex 可查看 API');
+    console.log('📤 使用 __pokedex.syncToCloud() 上传到云端');
+    console.log('📥 使用 __pokedex.loadFromCloud() 从云端加载');
 })();
