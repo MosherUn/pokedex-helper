@@ -1,6 +1,6 @@
 /**
  * GitHub 数据库模块
- * 数据直接存储在 pokedex-helper 仓库中
+ * 数据存储在 pokedex-helper 仓库
  * 用户名: MosherUn
  */
 
@@ -22,7 +22,7 @@ function saveGitHubConfigToLocal(config) {
 // ===== 默认配置 =====
 let CONFIG = getGitHubConfig() || {
     owner: 'MosherUn',
-    repo: 'pokedex-helper',        // ← 改成一个仓库
+    repo: 'pokedex-helper',
     token: '',
     path: 'data/pokedex.json',
     branch: 'main'
@@ -36,7 +36,7 @@ let syncStatus = 'idle';
 let lastSyncTime = null;
 let syncError = null;
 
-// ===== 从 GitHub 读取数据 =====
+// ===== 从 GitHub 读取数据（修复编码） =====
 async function fetchFromGitHub() {
     if (!CONFIG.token || !CONFIG.owner || !CONFIG.repo) {
         syncStatus = 'error';
@@ -73,7 +73,8 @@ async function fetchFromGitHub() {
         }
 
         const result = await response.json();
-        const content = atob(result.content);
+        // 🔧 修复：正确处理 UTF-8 编码
+        const content = decodeURIComponent(escape(atob(result.content)));
         const data = JSON.parse(content);
         
         syncStatus = 'success';
