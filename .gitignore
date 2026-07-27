@@ -1,20 +1,11 @@
-# ===== 敏感文件 =====
+# 忽略 config.js（包含敏感 Token）
 config.js
 
-# ===== 操作系统文件 =====
+# 忽略系统文件
 .DS_Store
 Thumbs.db
 
-# ===== 日志文件 =====
+# 忽略临时文件
 *.log
-npm-debug.log*
-
-# ===== 编辑器文件 =====
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# ===== 临时文件 =====
-tmp/
-temp/
+*.tmp
+node_modules/
