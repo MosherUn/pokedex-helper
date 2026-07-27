@@ -1520,7 +1520,7 @@
     "兔3": {
       "name": "丘壤兔",
       "type": "土",
-      "subject": "化",
+      "subject": "化学",
       "_atk": 2.38,
       "_hpm": 14,
       "_mpm": 1.5,
@@ -1538,10 +1538,7 @@
       ],
       "evolveFrom": "兔2",
       "desc": "丘壤兔是兔的最终形态，掌握高级化学知识。",
-      "habitat": "花园道馆",
-      "id": "兔3",
-      "evolveTo": "",
-      "evolveItem": ""
+      "habitat": "花园道馆"
     }
   },
   "item": [
@@ -1751,7 +1748,7 @@
     },
     {
       "id": "card1",
-      "name": "扩容卡",
+      "name": "扩容卡111",
       "type": "addMaxPets",
       "desc": "增加精灵携带数上限1格。"
     }
@@ -2351,7 +2348,7 @@
     }
   },
   "_meta": {
-    "lastUpdated": "2026-07-27T12:44:10.709Z",
+    "lastUpdated": "2026-07-27T12:50:26.557Z",
     "totalPets": 64,
     "totalItems": 35,
     "totalSkills": 12,
