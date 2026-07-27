@@ -1543,6 +1543,29 @@
       "evolveFrom": "兔2",
       "desc": "丘壤兔是兔的最终形态，掌握高级化学知识。",
       "habitat": "花园道馆"
+    },
+    "鸭帮1": {
+      "id": "鸭帮1",
+      "name": "鸭仔",
+      "type": "金",
+      "subject": "",
+      "atk": 10,
+      "_atk": 2,
+      "hpm": 30,
+      "_hpm": 10,
+      "mpm": 20,
+      "_mpm": 1,
+      "def": 2,
+      "_def": 1,
+      "crt": 0.05,
+      "_crt": 0.007,
+      "crtdmg": 2,
+      "_crtdmg": 0.02,
+      "habitat": "",
+      "evolveFrom": "",
+      "evolveTo": "",
+      "evolveItem": "",
+      "desc": ""
     }
   },
   "item": [
@@ -2352,8 +2375,8 @@
     }
   },
   "_meta": {
-    "lastUpdated": "2026-07-27T14:04:23.558Z",
-    "totalPets": 64,
+    "lastUpdated": "2026-07-27T14:27:55.120Z",
+    "totalPets": 65,
     "totalItems": 35,
     "totalSkills": 12,
     "totalWears": 34,
