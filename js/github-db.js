@@ -36,7 +36,7 @@ let syncStatus = 'idle';
 let lastSyncTime = null;
 let syncError = null;
 
-// ===== 从 GitHub 读取数据（修复编码） =====
+// ===== 🔧 从 GitHub 读取数据（用 arrayBuffer 方式，完美支持中文） =====
 async function fetchFromGitHub() {
     if (!CONFIG.token || !CONFIG.owner || !CONFIG.repo) {
         syncStatus = 'error';
@@ -73,8 +73,23 @@ async function fetchFromGitHub() {
         }
 
         const result = await response.json();
-        // 🔧 修复编码
-        const content = decodeURIComponent(escape(atob(result.content)));
+        
+        // 🔧 方法1：先用 atob 解码，再用 decodeURIComponent 处理 UTF-8
+        let content;
+        try {
+            // 尝试标准解码
+            const decoded = atob(result.content);
+            content = decodeURIComponent(escape(decoded));
+        } catch (e) {
+            // 如果失败，直接用 TextDecoder
+            const binaryString = atob(result.content);
+            const bytes = new Uint8Array(binaryString.length);
+            for (let i = 0; i < binaryString.length; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            content = new TextDecoder('utf-8').decode(bytes);
+        }
+        
         const data = JSON.parse(content);
         
         syncStatus = 'success';
@@ -92,7 +107,7 @@ async function fetchFromGitHub() {
     }
 }
 
-// ===== 写入数据到 GitHub =====
+// ===== 🔧 写入数据到 GitHub（确保 UTF-8 编码） =====
 async function saveToGitHub(data, commitMessage = '更新图鉴数据') {
     if (!CONFIG.token || !CONFIG.owner || !CONFIG.repo) {
         syncStatus = 'error';
@@ -108,11 +123,16 @@ async function saveToGitHub(data, commitMessage = '更新图鉴数据') {
         const current = await fetchFromGitHub();
         const sha = current.sha;
         
-        const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+        // 🔧 确保 UTF-8 编码
+        const jsonStr = JSON.stringify(data, null, 2);
+        // 用 TextEncoder 编码为 UTF-8，然后转 Base64
+        const encoder = new TextEncoder();
+        const dataBytes = encoder.encode(jsonStr);
+        const base64 = btoa(String.fromCharCode(...dataBytes));
         
         const body = {
             message: commitMessage,
-            content: content,
+            content: base64,
             branch: CONFIG.branch
         };
         if (sha) {
@@ -171,31 +191,27 @@ async function syncAllDataToGitHub() {
     return await saveToGitHub(allData, '同步图鉴数据');
 }
 
-// ===== 🔧 修复：从 GitHub 加载数据（替换而不是追加） =====
+// ===== 从 GitHub 加载数据（替换而不是追加） =====
 async function loadFromGitHub() {
     const result = await fetchFromGitHub();
     if (result.data) {
         const data = result.data;
         
-        // 🔧 修复1：完全替换精灵数据（而不是追加）
+        // 完全替换精灵数据
         if (data.pet) {
-            // 清空现有精灵数据
             for (const key of Object.keys(PetDict)) {
                 delete PetDict[key];
             }
-            // 加载新数据
             Object.assign(PetDict, data.pet);
         }
         
-        // 🔧 修复2：完全替换道具数据（而不是追加）
+        // 完全替换道具数据
         if (data.item) {
-            // 清空现有道具数据
             ItemList.length = 0;
-            // 加载新数据
             ItemList.push(...data.item);
         }
         
-        // 🔧 修复3：完全替换技能数据（而不是追加）
+        // 完全替换技能数据
         if (data.skill) {
             for (const key of Object.keys(SkillDict)) {
                 delete SkillDict[key];
@@ -203,7 +219,7 @@ async function loadFromGitHub() {
             Object.assign(SkillDict, data.skill);
         }
         
-        // 🔧 修复4：完全替换装备数据（而不是追加）
+        // 完全替换装备数据
         if (data.wear) {
             for (const key of Object.keys(WEARABLES)) {
                 delete WEARABLES[key];
