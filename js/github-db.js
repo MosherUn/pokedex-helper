@@ -1,6 +1,7 @@
 /**
  * GitHub 数据库模块
- * 数据存储在 re_of_pokemon 仓库
+ * 数据直接存储在 pokedex-helper 仓库中
+ * 用户名: MosherUn
  */
 
 // ===== 从 localStorage 读取配置 =====
@@ -20,8 +21,8 @@ function saveGitHubConfigToLocal(config) {
 
 // ===== 默认配置 =====
 let CONFIG = getGitHubConfig() || {
-    owner: '',
-    repo: 're_of_pokemon',
+    owner: 'MosherUn',
+    repo: 'pokedex-helper',        // ← 改成一个仓库
     token: '',
     path: 'data/pokedex.json',
     branch: 'main'
@@ -282,4 +283,4 @@ function importDataFromFile(file) {
 }
 
 updateSyncUI();
-console.log('[GitHub DB] 数据存储仓库: re_of_pokemon');
+console.log('[GitHub DB] 数据存储仓库: MosherUn/pokedex-helper');
