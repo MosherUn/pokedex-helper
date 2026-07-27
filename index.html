@@ -9,7 +9,6 @@
 <body>
 
     <div class="app-container">
-        <!-- 头部 -->
         <div class="header">
             <div class="header-left">
                 <h1>📖 小精灵图鉴</h1>
@@ -21,7 +20,6 @@
             </div>
         </div>
 
-        <!-- 分类切换 -->
         <div class="category-tabs" id="categoryTabs">
             <button class="category-tab active" data-category="pet">🧚 精灵</button>
             <button class="category-tab" data-category="item">🎒 道具</button>
@@ -29,16 +27,13 @@
             <button class="category-tab" data-category="wear">👕 装备</button>
         </div>
 
-        <!-- 搜索和筛选 -->
         <div class="search-bar">
             <input type="text" id="searchInput" class="search-input" placeholder="🔍 搜索名称、类型、描述...">
             <div class="filter-tabs" id="filterTabs"></div>
         </div>
 
-        <!-- 图鉴网格 -->
         <div class="pokedex-grid" id="pokedexGrid"></div>
 
-        <!-- 状态栏 -->
         <div class="status-bar">
             <span id="resultCount">共 0 项</span>
             <span id="dataStatus">📦 数据已持久化</span>
@@ -94,73 +89,21 @@
                         <input name="owner" id="configOwner" placeholder="你的GitHub用户名" required>
                     </div>
                     <div class="form-group">
-                        <label>仓库名</label>
-                        <input name="repo" id="configRepo" placeholder="pokedex-data" required>
+                        <label>数据仓库名</label>
+                        <input name="repo" id="configRepo" placeholder="re_of_pokemon" required>
                     </div>
                     <div class="form-group">
                         <label>Token</label>
-                        <input name="token" id="configToken" type="password" placeholder="ghp_xxxxxxxx" required>
-                        <div style="font-size:11px;color:rgba(255,255,255,0.2);margin-top:4px;">
-                            <a href="#" onclick="openTokenGuide();return false;" style="color:#a78bfa;">📖 如何获取 Token？</a>
-                        </div>
+                        <input name="token" id="configToken" type="password" placeholder="github_pat_xxx" required>
+                    </div>
+                    <div style="font-size:12px;color:rgba(255,255,255,0.2);margin-bottom:10px;padding:8px 12px;background:rgba(255,215,0,0.05);border-radius:8px;border-left:3px solid #ffd700;">
+                        🔒 Token 仅保存在你的浏览器本地，不会被上传
                     </div>
                     <div class="form-actions">
                         <button type="button" class="btn-cancel" onclick="closeConfigModal()">取消</button>
                         <button type="submit" class="btn-save">保存配置</button>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- ===== Token 获取指南弹窗 ===== -->
-    <div class="modal-overlay" id="tokenGuideModal">
-        <div class="modal-box" style="max-width: 560px;">
-            <div class="modal-header">
-                <h2>📖 如何获取 GitHub Token</h2>
-                <button class="modal-close" id="tokenGuideCloseBtn">✕</button>
-            </div>
-            <div class="modal-body" id="tokenGuideBody" style="font-size:14px;line-height:1.8;">
-                <div style="background:rgba(167,139,250,0.05);padding:12px 16px;border-radius:12px;margin-bottom:12px;">
-                    <strong>📌 步骤 1：登录 GitHub</strong>
-                    <div style="color:rgba(255,255,255,0.4);font-size:13px;">访问 <a href="https://github.com/login" target="_blank" style="color:#a78bfa;">https://github.com/login</a> 登录你的账号</div>
-                </div>
-                
-                <div style="background:rgba(167,139,250,0.05);padding:12px 16px;border-radius:12px;margin-bottom:12px;">
-                    <strong>📌 步骤 2：进入 Token 设置</strong>
-                    <div style="color:rgba(255,255,255,0.4);font-size:13px;">
-                        点击右上角头像 → <strong>Settings</strong> → 左侧菜单 <strong>Developer settings</strong> → <strong>Personal access tokens</strong> → <strong>Tokens (classic)</strong>
-                    </div>
-                </div>
-                
-                <div style="background:rgba(167,139,250,0.05);padding:12px 16px;border-radius:12px;margin-bottom:12px;">
-                    <strong>📌 步骤 3：生成新 Token</strong>
-                    <div style="color:rgba(255,255,255,0.4);font-size:13px;">
-                        点击 <strong>Generate new token (classic)</strong>，填写备注（如 "pokedex"），<br>
-                        <strong>必须勾选</strong> <code style="background:rgba(255,255,255,0.05);padding:0 8px;border-radius:4px;">repo</code> 权限
-                    </div>
-                </div>
-                
-                <div style="background:rgba(167,139,250,0.05);padding:12px 16px;border-radius:12px;margin-bottom:12px;">
-                    <strong>📌 步骤 4：复制 Token</strong>
-                    <div style="color:rgba(255,255,255,0.4);font-size:13px;">
-                        点击底部 <strong>Generate token</strong>，<span style="color:#f87171;">⚠️ 立即复制并保存！</span><br>
-                        <span style="color:rgba(255,255,255,0.2);">Token 格式：<code>ghp_xxxxxxxxxxxxxxxxxxxx</code></span>
-                    </div>
-                </div>
-                
-                <div style="background:rgba(251,191,36,0.05);padding:12px 16px;border-radius:12px;border-left:3px solid #fbbf24;">
-                    <strong style="color:#fbbf24;">💡 重要提示</strong>
-                    <div style="color:rgba(255,255,255,0.4);font-size:13px;">
-                        Token 只能看到一次，丢失需重新生成！<br>
-                        请将 Token 填写到配置中，<span style="color:#f87171;">不要上传到公开仓库！</span>
-                    </div>
-                </div>
-                
-                <div style="margin-top:16px;display:flex;gap:10px;">
-                    <button onclick="closeTokenGuide()" style="padding:8px 24px;border-radius:10px;border:none;background:rgba(123,104,238,0.3);color:#fff;cursor:pointer;font-family:inherit;">我知道了</button>
-                    <a href="https://github.com/settings/tokens" target="_blank" style="padding:8px 24px;border-radius:10px;background:rgba(74,222,128,0.15);border:1px solid rgba(74,222,128,0.2);color:#4ade80;text-decoration:none;cursor:pointer;font-family:inherit;">🚀 去生成 Token</a>
-                </div>
             </div>
         </div>
     </div>
