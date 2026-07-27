@@ -73,7 +73,7 @@ async function fetchFromGitHub() {
         }
 
         const result = await response.json();
-        // 🔧 修复：正确处理 UTF-8 编码
+        // 🔧 修复编码
         const content = decodeURIComponent(escape(atob(result.content)));
         const data = JSON.parse(content);
         
@@ -171,27 +171,46 @@ async function syncAllDataToGitHub() {
     return await saveToGitHub(allData, '同步图鉴数据');
 }
 
-// ===== 从 GitHub 加载数据 =====
+// ===== 🔧 修复：从 GitHub 加载数据（替换而不是追加） =====
 async function loadFromGitHub() {
     const result = await fetchFromGitHub();
     if (result.data) {
         const data = result.data;
+        
+        // 🔧 修复1：完全替换精灵数据（而不是追加）
         if (data.pet) {
-            Object.keys(data.pet).forEach(key => {
-                PetDict[key] = data.pet[key];
-            });
+            // 清空现有精灵数据
+            for (const key of Object.keys(PetDict)) {
+                delete PetDict[key];
+            }
+            // 加载新数据
+            Object.assign(PetDict, data.pet);
         }
+        
+        // 🔧 修复2：完全替换道具数据（而不是追加）
         if (data.item) {
-            const defaultIds = ItemListDefault.map(i => i.id);
-            const newItems = data.item.filter(i => !defaultIds.includes(i.id));
-            ItemList.push(...newItems);
+            // 清空现有道具数据
+            ItemList.length = 0;
+            // 加载新数据
+            ItemList.push(...data.item);
         }
+        
+        // 🔧 修复3：完全替换技能数据（而不是追加）
         if (data.skill) {
+            for (const key of Object.keys(SkillDict)) {
+                delete SkillDict[key];
+            }
             Object.assign(SkillDict, data.skill);
         }
+        
+        // 🔧 修复4：完全替换装备数据（而不是追加）
         if (data.wear) {
+            for (const key of Object.keys(WEARABLES)) {
+                delete WEARABLES[key];
+            }
             Object.assign(WEARABLES, data.wear);
         }
+        
         saveCustomData();
         return { success: true, data };
     }
@@ -250,17 +269,22 @@ function downloadDataAsFile() {
 }
 
 function importAllData(data) {
-    if (data.pet) { Object.assign(PetDict, data.pet); }
-    if (data.item) {
-        const existingIds = ItemList.map(i => i.id);
-        data.item.forEach(item => {
-            if (!existingIds.includes(item.id)) {
-                ItemList.push(item);
-            }
-        });
+    if (data.pet) {
+        for (const key of Object.keys(PetDict)) delete PetDict[key];
+        Object.assign(PetDict, data.pet);
     }
-    if (data.skill) { Object.assign(SkillDict, data.skill); }
-    if (data.wear) { Object.assign(WEARABLES, data.wear); }
+    if (data.item) {
+        ItemList.length = 0;
+        ItemList.push(...data.item);
+    }
+    if (data.skill) {
+        for (const key of Object.keys(SkillDict)) delete SkillDict[key];
+        Object.assign(SkillDict, data.skill);
+    }
+    if (data.wear) {
+        for (const key of Object.keys(WEARABLES)) delete WEARABLES[key];
+        Object.assign(WEARABLES, data.wear);
+    }
     saveCustomData();
     return true;
 }
