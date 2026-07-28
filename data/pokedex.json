@@ -1548,7 +1548,7 @@
       "id": "鸭帮1",
       "name": "鸭仔",
       "type": "金",
-      "subject": "",
+      "subject": "随机科目",
       "atk": 10,
       "_atk": 2,
       "hpm": 30,
@@ -1561,10 +1561,10 @@
       "_crt": 0.007,
       "crtdmg": 2,
       "_crtdmg": 0.02,
-      "habitat": "",
-      "evolveFrom": "",
+      "habitat": "竹青村",
+      "evolveFrom": "兔2",
       "evolveTo": "",
-      "evolveItem": "",
+      "evolveItem": "半仙的泪",
       "desc": ""
     }
   },
@@ -2375,7 +2375,7 @@
     }
   },
   "_meta": {
-    "lastUpdated": "2026-07-27T14:38:00.452Z",
+    "lastUpdated": "2026-07-28T02:54:15.084Z",
     "totalPets": 65,
     "totalItems": 35,
     "totalSkills": 12,
